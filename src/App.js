@@ -12,7 +12,7 @@ class BooksApp extends React.Component {
     currentlyReading: [],
     read: [],
     wantToRead: [],
-    books: [],
+    books:[]
   };
   async componentDidMount() {
     let state = { ...this.state };
@@ -34,7 +34,8 @@ class BooksApp extends React.Component {
     const state = { ...this.state };
     book.shelf = shelf;
     if (shelf === "read") {
-      state.read.push(book);
+
+      state.read=[...state.read,book]
 
       state.wantToRead = state.wantToRead.filter((b) => b.title !== book.title);
       state.currentlyReading = state.currentlyReading.filter(
@@ -42,12 +43,12 @@ class BooksApp extends React.Component {
       );
     } else if (shelf === "currentlyReading") {
       book.shelf = "currentlyReading";
-      state.currentlyReading.push(book);
+       state.currentlyReading=[...state.currentlyReading,book]
       state.read = state.read.filter((b) => b.title !== book.title);
       state.wantToRead = state.wantToRead.filter((b) => b.title !== book.title);
     } else if (shelf === "wantToRead") {
       book.shelf = "wantToRead";
-      state.wantToRead.push(book);
+      state.wantToRead=[...state.wantToRead,book]
 
       state.currentlyReading = state.currentlyReading.filter(
         (b) => b.title !== book.title
