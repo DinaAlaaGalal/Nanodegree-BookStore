@@ -27,9 +27,7 @@ class BooksApp extends React.Component {
       }
     });
 
-    console.log(state.books);
     this.setState(state);
-    console.log(state.books);
   }
 
   Addreading = async (book, shelf) => {
@@ -37,29 +35,19 @@ class BooksApp extends React.Component {
     book.shelf = shelf;
     if (shelf === "read") {
       state.read.push(book);
-      state.read = state.books
-        .filter((bo) => bo.shelf === book.shelf)
-        .concat([book]);
-      console.log(state.read);
 
-      state.wantToRead = state.wantToRead.filter((b) => b.shelf !== book.shelf);
+      state.wantToRead = state.wantToRead.filter((b) => b.title !== book.title);
       state.currentlyReading = state.currentlyReading.filter(
-        (b) => b.shelf !== book.shelf
+        (b) => b.title !== book.title
       );
     } else if (shelf === "currentlyReading") {
       book.shelf = "currentlyReading";
-      state.currentlyReading = state.books
-        .filter((bo) => bo.title === book.title)
-        .concat([book]);
-      console.log(state.currentlyReading);
+      state.currentlyReading.push(book);
       state.read = state.read.filter((b) => b.title !== book.title);
       state.wantToRead = state.wantToRead.filter((b) => b.title !== book.title);
     } else if (shelf === "wantToRead") {
       book.shelf = "wantToRead";
-      state.wantToRead = state.books
-        .filter((bo) => bo.title === book.title)
-        .concat([book]);
-      console.log(state.wantToRead);
+      state.wantToRead.push(book);
 
       state.currentlyReading = state.currentlyReading.filter(
         (b) => b.title !== book.title
@@ -74,9 +62,7 @@ class BooksApp extends React.Component {
     }
 
     await BooksAPI.update(book, book.shelf);
-    console.log(state.books);
     this.setState(state);
-    console.log(state.books);
   };
 
   render() {
